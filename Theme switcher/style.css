@@ -1,0 +1,114 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --bgWhite: #e6e6e6;
+  --txtWhite: #fff;
+  --orangeBd: #0bccdf;
+  --bgBlack: #333333;
+  --txtBlack: #000;
+  --bd-dark: skyblue;
+  --hr: green;
+  font-size: 20px;
+}
+.light-theme {
+  --bg-light: var(--bgWhite);
+  --txt-light: var(--txtBlack);
+  --bd-light: var(--orangeBd);
+  --bg-dark: var(--bgBlack);
+  --txt-dark: var(--txtWhite);
+  --bd-dark: skyblue;
+}
+.dark-theme {
+  --bg-light: var(--bgBlack);
+  --txt-light: var(--txtWhite);
+  --bd-light: #194b50;
+  --bg-dark: var(--bgWhite);
+  --txt-dark: var(--txtBlack);
+}
+.wrapper {
+  background-color: var(--bg-light);
+}
+ul {
+  padding: 0 !important;
+}
+.light,
+.dark {
+  position: relative;
+  margin: 10px 0px;
+  font-weight: 550;
+  color: var(--txt-light);
+  margin-left: 30px !important;
+}
+.light {
+  margin-right: 5px;
+}
+.light:hover,
+.dark:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}
+.light::before,
+.dark::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid var(--txt-light);
+  top: 6px;
+  left: -24px;
+  background-color: #362f2f;
+}
+.light::before {
+  background-color: transparent;
+}
+.nav-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  color: var(--txt-light);
+}
+.header {
+  color: var(--txt-light);
+  height: 50vh;
+  background-color: var(--bd-light);
+  text-align: center;
+  clip-path: polygon(0 0, 0 60%, 50% 100%, 100% 60%, 100% 0);
+}
+.header-section {
+  line-height: 45vh;
+  font-weight: 1000px;
+  font-size: 35px;
+  letter-spacing: 0.5px;
+}
+/*styling for main card section */
+.main-section {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 5px;
+  background-color: var(--bg-light);
+}
+.item {
+  min-height: 300px;
+  width: 400px;
+  background-color: var(--bg-dark);
+  color: var(--txt-dark);
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px solid var(--bd-light);
+  border-radius: 5px;
+}
+.btm-style {
+  border-bottom: 3px solid rgb(255, 48, 221);
+}
