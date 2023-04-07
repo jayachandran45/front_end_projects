@@ -112,3 +112,14 @@ ul {
 .btm-style {
   border-bottom: 3px solid rgb(255, 48, 221);
 }
+@media (max-width: 600px) {
+  .header-section {
+    line-height: 15vh;
+  }
+  .item {
+    margin: 5px;
+  }
+  .wrapper {
+    padding-top: 8px;
+  }
+}
