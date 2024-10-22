@@ -1,1 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/vkiryukhin/vkBeautify/vkbeautify.js"></script>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      padding: 0 2rem ;
+    }
+    .container > button {
+      border-radius: 0.3rem;
+      border: 0.12rem solid black;
+      letter-spacing: .2px;
+      font-weight: 650;
+      font-size: .9rem;
+    }
+    .container > button:hover{
+      background-color: rgb(61, 61, 61);
+      color: white;
+    }
+    button {
+      cursor: pointer;
+      padding: 0.4rem;
+    }
+    .modal-container {
+      position: relative;
+      border: 2px solid black;
+      padding: 1rem;
+      background-color: rgb(255, 255, 255);
+      max-width: 80%;
+      min-width: 80%;
+      left: 10%;
+      top: 1rem;
+      display: none;
+      border-radius: .6rem;
+    }
+    .modal {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 50vh;
+      overflow: auto;
+      margin-top: 1rem;
+      
+    }
+    .close-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #f44336; /* Red color */
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.8rem;
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      border-radius: .4rem;
+    }
+
+    .close-icon:hover {
+      color: #d32f2f;
+      border: 2px solid #d32f2f;
+    }
+
+    .overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100vw;
+      background-color: rgba(215, 215, 215, 0.801);
+      position: absolute;
+      top: 0;
+      display: none;
+      max-height: 200vh;
+    }
+    .note{
+      margin-top: 3rem;
+      margin-bottom: .4rem;
+    }
+    .click-navigation-text{
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      text-decoration: underline;
+    text-underline-offset: .2rem;
+      text-decoration-thickness: 2px;
+  }
+    h4{
+      letter-spacing: .2px;
+      font-weight: 500;
+    }
+    a{
+      margin: 0 .2rem;
+    }
+    img{
+      width: 2rem;
+      transform:rotate(180deg);
+      position: relative;
+      top: .8rem;
+    }
+    .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: calc(50% - 20px); 
+            display: none;
+            z-index: 2;
+            }
+  </style>
+  <body>
+    <div class="loader-container">
+      <div class="loader"></div>
+  </div>
+    <div class="container">
+      <h4 class="click-navigation-text"><img src="swipe-up.gif" alt="">Click the below buttons to call the interface and get data </h4>
+      <button id="getStatus" class="device-btn">Get Status</button>
+      <button id="getDetails" class="device-btn">Get Details</button>
+      <button id="getCapture" class="device-btn">Capture bio</button>
+      <h4 class="note"><b style="background-color: rgb(255, 0, 0);color: rgb(255, 255, 255);padding:2px 3px;margin-right: 1.5px;"> Note : </b> This will work only for specific biometric device. In this case it is <i style="background-color: yellow;">RD service for Startek FM220 provided by Access Computech.</i></h5>
+      <h4 class="info">To learn how to call the interface and get biometric data. Check this official Integration pdf <a target="_blank" href="https://acpl.in.net/assets/pdf/L1_RD_Intrgration_Guide_V1.0.pdf">https://acpl.in.net/assets/pdf/L1_RD_Intrgration_Guide_V1.0.pdf</a><br>
+      or else check their website <a target="_blank" href="https://acpl.in.net/">https://acpl.in.net/</a> to get to know more! 
+      </h4>    
+    </div>
+    <div class="overlay"></div>
+    <div class="modal-container">
+      <span class="close-icon" title="Close modal"> <i class="fas fa-times"></i></span>
+      <div class="modal"></div>
+    </div>
+
+    <script>
+      const host = "http://localhost:11100";
+      const overlayEle = document.querySelector(".overlay");
+      const modalCloseBtn = document.querySelector(".close-icon");
+      const statusBtn = document.querySelector("#getStatus");
+      const detailsBtn = document.querySelector("#getDetails");
+      const CaptureBtn = document.querySelector("#getCapture");
+      const serviceHitBtns = document.querySelectorAll(".device-btn");
+      const modalContainerEle = document.querySelector(".modal-container");
+      const loaderContainerEle = document.querySelector(".loader-container")
+      let modalStatus = false;
+      let arrayBtnEle = [
+        {
+          element: statusBtn,
+          url: `${host}`,
+          requestOption: {
+            method: "RDSERVICE",
+            redirect: "follow",
+          },
+        },
+        {
+          element: detailsBtn,
+          url: `${host}/rd/info`,
+          requestOption: {
+            method: "DEVICEINFO",
+            redirect: "follow",
+          },
+        },
+        {
+          element: CaptureBtn,
+          url: `${host}/rd/capture`,
+
+          requestOption: {
+            method: "CAPTURE",
+            headers: {
+              "Content-Type": "text/plain",
+            },
+            body: `
+<PidOptions ver="1.0" env="P">
+  <Opts 
+    fCount="1" 
+    fType="2" 
+    format="0" 
+    pidVer="2.0" 
+    timeout="20000" 
+    posh="UNKNOWN" 
+    env="P" 
+    wadh="" 
+  />
+</PidOptions>
+`,
+            redirect: "follow",
+          },
+        },
+      ];
+
+      // close the modal
+      modalCloseBtn.addEventListener("click", (e) => {
+        if (modalStatus) {
+          overlayEle.style.display = "none";
+          modalContainerEle.style.display = "none";
+          const divEle = document.querySelector(".modal");
+          divEle.textContent = "";
+        }
+      });
+
+      overlayEle.addEventListener("click", (e) => {
+        if (modalStatus) {
+          overlayEle.style.display = "none";
+          modalContainerEle.style.display = "none";
+          const divEle = document.querySelector(".modal");
+          divEle.textContent = "";
+        }
+      });
+
+      overlayEle.addEventListener("click", (e) => {
+        console.log("overlay is clicked");
+      });
+
+      function callService(url, requestOptions) {
+        overlayEle.style.display = "flex";
+        loaderContainerEle.style.display = "flex"
+        fetch(url, requestOptions)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log(result);
+            appendXml(result);
+            loaderContainerEle.style.display = "none"
+            modalContainerEle.style.display = "block";
+            modalStatus = true;
+          })
+          .catch((error) => console.log("error", error));
+      }
+
+      function appendXml(xmlString) {
+        const divEle = document.querySelector(".modal");
+        console.log(divEle.innerHTML.length);
+        const formattedXML = vkbeautify.xml(xmlString, 4);
+        divEle.textContent = formattedXML;
+        console.log(divEle.innerHTML.length);
+      }
+
+      serviceHitBtns.forEach((ele) => {
+        ele.addEventListener("click", () => {
+          arrayBtnEle.forEach((e) => {
+            if (ele.id == e.element.id) {
+              console.log(e.element.id);
+              callService(e.url, e.requestOption);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
 
