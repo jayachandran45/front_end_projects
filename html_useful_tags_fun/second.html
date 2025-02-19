@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="index.html">Go back to previous page</a>
+
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        let name = params.get("name");
+        let age = params.get("age")
+        let gender = params.get("gender")
+        let date = params.get("date")
+        let range = params.get("range")
+
+        if (name && age) {
+            console.log("contains value")
+            let createEle = document.createElement("h1")
+            createEle.innerHTML = `Entered Name  =>  ${name} <br>Entered Age  =>  ${age} <br>Entered Gender  =>  ${gender} <br>Entered date  =>  ${date} <br>Entered Range  =>  ${range} / 100`
+            let body = document.querySelector("body");
+            body.appendChild(createEle)
+        }
+
+        // console.dir(a)
+
+    </script>
+</body>
+
+</html>

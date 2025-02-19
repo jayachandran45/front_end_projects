@@ -1,1 +1,218 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+    <script defer src="app.js"></script>
+</head>
+
+<body>
+    <p class="title">Header</p>
+    <header>Welcome to learning useful HTML tags by Jayachandran.</header>
+    <!-- Note template -->
+    <p class="note"><span style="color:red">Note / Description : </span>The header tag is not just for styling text; it
+        provides semantic meaning to the browser. It is often used to group introductory content, navigation links, or
+        titles at the start of a section or a web page.</p>
+
+    <p class="title">Heading Tag</p>
+    <h1>Heading 1 => UserAgent size => <span class="h h1"></span></h1>
+    <h2>Heading 2 => UserAgent size => <span class="h h2"></span></h2>
+    <h3>Heading 3 => UserAgent size => <span class="h h3"></span></h3>
+    <h4>Heading 4 => UserAgent size => <span class="h h4"></span></h4>
+    <h5>Heading 5 => UserAgent size => <span class="h h5"></span></h5>
+    <h6>Heading 6 => UserAgent size => <span class="h h6"></span></h6>
+
+    <!-- Note template -->
+    <p class="note"><span style="color:red">Note / Description : </span>The margin and some other styles are added by
+        the browser.</p>
+
+    <p class="title">HyperLink</p>
+    <div><a href="second.html">Click to Go another HyperText Page</a></div>
+    <div><a href="second.html" title="show some additional tool tip">Click to Go another HyperText Page added
+            tooltip</a></div>
+    <div><a href="second.html" target="_blank" rel="noopener noreferrer">Click to Go another HyperText Page in an new
+            tab</a></div>
+
+    <!-- Note template -->
+    <p class="note"><span style="color:red">Note / Description : </span> The hyperlink tag is an inline element and has
+        some predefined browser styles. These styles can be customized.</p>
+
+    <p class="title">Image Tag</p>
+    <img src="girl-img.jpg" alt="Text entered here, Will appears on the web page if img was not able to load"
+        width="300px">
+    <img src="girl-img.jpg" alt="Text entered here, Will appears on the web page if img was not able to load"
+        width="300px">
+    <!-- Note template -->
+    <p class="note"><span style="color:red">Note / Description : </span> The img tag is an inline element, which behaves
+        differently from block-level elements.</p>
+
+
+    <p class="title">List Tag</p>
+    <ol>
+        <li>Apple</li>
+        <li>Bannana</li>
+        <li>Orange</li>
+    </ol>
+    <ul>
+        <li>Apple</li>
+        <li>Bannana</li>
+        <li>Orange</li>
+    </ul>
+
+    <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language</dd>
+
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets</dd>
+    </dl>
+
+    <p class="note"><span style="color:red">Note / Description : </span>We have listed Unordered List, Ordered List, and
+        Description List. These lists have default browser styles, which can be customized.
+    </p>
+
+    <p class="title">Table</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+        </tr>
+        <tr>
+            <td>Jaya</td>
+            <td>23</td>
+            <td>Male</td>
+        </tr>
+        <tr>
+            <td>Ajith</td>
+            <td>22</td>
+            <td>Male</td>
+        </tr>
+    </table>
+    <table border>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+        </tr>
+        <tr>
+            <td>Jaya</td>
+            <td>23</td>
+            <td>Male</td>
+        </tr>
+        <tr>
+            <td>Ajith</td>
+            <td>22</td>
+            <td>Male</td>
+        </tr>
+    </table>
+
+    <p class="note"><span style="color:red">Note / Description : </span>This kind of HTML table is not the most commonly
+        used, but it is still good to know how most libraries work, such as DataTable.
+    </p>
+
+    <p class="title">Form</p>
+
+    <form action="second.html" method="get">
+        <p style="text-decoration: underline;">Input Field</p>
+        <div style="margin-bottom: .6rem;"><input type="text" name="name" placeholder="Enter name"></div>
+        <div style="margin-bottom: .6rem;"><input type="text" name="age" placeholder="Enter age"></div>
+        <p style="text-decoration: underline;">Text Area</p>
+        <div style="margin-bottom: .6rem;"><textarea style="height: 100px; width: 500px;" name="textArea"
+                id="ta"></textarea></div>
+        <p style="text-decoration: underline;">Checkbox</p>
+        <div style="margin-bottom: .4rem;"><input type="checkbox" name="hobby" value="Reading">Reading</div>
+        <div style="margin-bottom: .4rem;"><input type="checkbox" name="hobby" value="Playing">playing</div>
+        <div style="margin-bottom: .4rem;"><input type="checkbox" name="hobby" value="Coding">code</div>
+        <p style="text-decoration: underline;">RadioButton</p>
+        <div style="margin-bottom: .4rem;"><input type="radio" name="gender" value="male">Male</div>
+        <div style="margin-bottom: .4rem;"><input type="radio" name="gender" value="female">Female</div>
+        <p style="text-decoration: underline;">Pick Date</p>
+        <div style="margin-bottom: .4rem;"><input type="date" name="date"></div>
+        <p style="text-decoration: underline;">Range Selection</p>
+        <div style="margin-bottom: .4rem;"><input type="range" name="range"></div>
+        <p style="text-decoration: underline;">Input Field</p>
+        <div style="margin-bottom: .4rem;">
+            <label for="country">Choose a country:</label>
+            <select id="country" name="country">
+                <option value="india">India</option>
+                <option value="usa">USA</option>
+                <option value="australia">Australia</option>
+            </select>
+        </div>
+        <input type="submit" value="submit">
+    </form>
+
+    <p class="note"><span style="color:red">Note / Description : </span>Form is one of the most important elements in
+        HTML because it acts to get data from the user and also sends that data to a specific endpoint as well.
+    </p>
+
+    <p class="title">Containers ( div, section ) </p>
+    <div class="card">
+        <img src="girlimg2.jpg" style="object-fit: cover;" alt="User Image" height="150px">
+        <h2>Jane Doe</h2>
+        <p>Software Developer</p>
+        <p>Location: New York, USA</p>
+    </div>
+
+    <p class="note"><span style="color:red">Note / Description : </span>It is often used for layout purposes on a web
+        page, allowing you to group elements together and create separate components.
+    </p>
+
+    <p class="title">iframe</p>
+
+    <iframe src="sample.pdf" style="display: block; margin: auto;overflow: auto;" width="50%" height="400px"></iframe>
+
+    <!-- <embed src="sample.pdf" type="application/pdf" width="50%" height="400px" />
+
+    <object data="sample.pdf" type="application/pdf" width="50%" height="400px"">
+        <p>PDF cannot be displayed. <a href=" sample.pdf">Download it instead</a>.</p>
+    </object> -->
+
+    <p class="note"><span style="color:red">Note / Description : </span>The iframe element is used to embed a webpage
+        or display documents, videos, and other types of content within a website. It acts as a separate container
+        for viewing external content. You can also use the embed and object tags to embed such content.
+    </p>
+
+    <p class="title">video</p>
+
+    <video style="margin: auto;display: block;" width="300px" controls poster="thumb.svg">
+        <source src="nandhini_reels.mp4" type="video/mp4">
+    </video>
+
+    <p class="note"><span style="color:red">Note / Description : </span>The video tag is used to embed video files in an
+        HTML web page. It relies on the media playback system provided by the underlying browser engine (such as WebKit)
+        to handle video rendering and playback. This allows users to view and control video content directly within the
+        browser or web page without requiring external players. You can use libraries like Video.js to enhance the video
+        tag.
+    </p>
+
+    <!-- <p class="title">Video via videojs</p>
+    <video id="my-video" class="video-js" style="display: block; margin: auto;" controls preload="auto" width="300"
+        poster="thumb.svg" data-setup="{}">
+        <source src="nandhini_reels.mp4" type="video/mp4" />
+    </video> -->
+
+    <p class="title">footer</p>
+    <footer>There are many other HTML elements, each with its own semantic use cases. I recommend exploring them on the
+        internet. I prefer the <a href='https://developer.mozilla.org/'>MDN Website</a> and For beginners, <a
+            href='https://www.w3schools.com/'>W3Schools</a> was ok. Thank you!
+    </footer>
+    <p class="note"><span style="color:red">Note / Description : </span>Most commonly, it is used at the bottom of a
+        webpage to display copyright information and sometimes social media links.
+    </p>
+    <br>
+
+</body>
+
+</html>

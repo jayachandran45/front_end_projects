@@ -1,0 +1,51 @@
+body {
+    font-family: "Inter";
+    margin: 1rem;
+}
+
+.h {
+    color: rgb(219, 16, 124);
+}
+
+.title {
+    font-size: 2rem;
+    color: rgb(255, 255, 47);
+    background-color: rgb(58, 58, 58);
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 600;
+    line-height: 3rem;
+    border: 3px solid;
+}
+
+.note {
+    background-color: rgb(20, 20, 20);
+    color: white;
+    line-height: 1.4rem;
+    padding: .4rem .8rem;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 300px;
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card h2 {
+    margin: 12px 0 8px;
+    font-size: 1.5em;
+}
+
+.card p {
+    margin: 4px 0;
+    color: #555;
+}
