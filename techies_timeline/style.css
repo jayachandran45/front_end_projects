@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+:root {
+    --card1-bg: rgb(186, 159, 10);
+    --card1-bg-trans: rgba(215, 191, 54, 0.96);
+    --card2-bg: rgb(180, 10, 186);
+    --card2-bg-trans: rgba(215, 54, 180, 0.96);
+    --card3-bg: rgb(11, 186, 202);
+    --card3-bg-trans: rgb(70, 209, 222);
+    --card4-bg: rgb(36, 10, 186);
+    --card4-bg-trans: rgba(89, 63, 235, 0.777);
+}
+
+.title {
+    font-size: 2rem;
+    color: rgb(255, 255, 47);
+    background-color: rgb(58, 58, 58);
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 600;
+    line-height: 3rem;
+    border: 3px solid;
+    margin-bottom: 2rem;
+}
+
+body {
+    margin: 1rem 2rem;
+    font-family: "Inter";
+    background-color: rgb(251, 247, 242);
+}
+
+.containers {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.vertical-line {
+    width: 4px;
+    height: 140vh;
+    border-radius: 30px;
+
+}
+
+.vertical-line1 {
+    background: linear-gradient(to bottom, rgb(186, 159, 10) 50%, rgb(180, 10, 186) 50%);
+}
+
+.vertical-line2 {
+    background: linear-gradient(to bottom, rgb(11, 186, 202) 50%, rgb(36, 10, 186) 50%);
+}
+
+.card-wrapper {
+    /* border: 2px solid; */
+    padding: .2rem;
+    box-shadow: 2px 2px 5px rgb(137, 137, 137);
+    border-radius: 5px;
+}
+
+.header {
+    display: flex;
+    padding: 1rem 0 1rem 1rem;
+    background-color: var(--card1-bg);
+    color: white;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    /* margin-bottom: 1rem; */
+}
+
+.card {
+    width: 40vw;
+}
+
+.number {
+    margin-right: 1rem;
+    background-color: var(--card1-bg-trans);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+
+
+.role {
+    color: rgb(241, 227, 227);
+}
+
+.card-main {
+    width: 100%;
+    padding: 1rem;
+}
+
+.card-wrapper1 {
+    align-self: flex-start;
+    margin-top: 5rem;
+    position: relative;
+}
+
+.card-wrapper1::after {
+    content: "";
+    position: absolute;
+    top: 8%;
+    right: -30px;
+    /* Create a right-facing triangle */
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 30px solid var(--card1-bg);
+    /* Triangle color */
+}
+
+.card-wrapper3::after {
+    content: "";
+    position: absolute;
+    top: 8%;
+    right: -30px;
+    /* Create a right-facing triangle */
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 30px solid var(--card3-bg);
+    /* Triangle color */
+}
+
+.card-wrapper4::after {
+    content: "";
+    position: absolute;
+    top: 8%;
+    left: -30px;
+    /* Create a right-facing triangle */
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 30px solid var(--card4-bg);
+    /* Triangle color */
+    transform: rotate(180deg);
+}
+
+img {
+    margin-top: .4rem;
+    object-fit: cover;
+    object-position: center 10%;
+    border-radius: 10px;
+}
+
+.analekh-img {
+    object-position: center center;
+}
+
+.nithin {
+    object-position: center 30%;
+}
+
+.hari {
+    object-position: center top;
+}
+
+.card-wrapper2 {
+    align-self: flex-end;
+    position: relative;
+}
+
+.card-wrapper4 {
+    align-self: flex-end;
+    position: relative;
+}
+
+.description {
+    line-height: 1.4rem;
+    letter-spacing: .5px;
+    margin-bottom: .4rem;
+}
+
+.card-wrapper3 {
+    align-self: flex-start;
+    margin-top: 5rem;
+    position: relative;
+}
+
+.card-wrapper2::after {
+    content: "";
+    position: absolute;
+    top: 8%;
+    left: -30px;
+    /* Create a right-facing triangle */
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 30px solid var(--card2-bg);
+    /* Triangle color */
+    transform: rotate(180deg);
+}
+
+.header2 {
+    background-color: var(--card2-bg);
+}
+
+.number2 {
+    background-color: var(--card2-bg-trans);
+}
+
+.card-3 .header {
+    background-color: var(--card3-bg);
+}
+
+.card-3 .number {
+    background-color: var(--card3-bg-trans);
+}
+
+.card-4 .header {
+    background-color: var(--card4-bg);
+}
+
+.card-4 .number {
+    background-color: var(--card4-bg-trans);
+}
+
+@media (max-width: 800px) {
+
+    .vertical-line {
+        display: none;
+    }
+
+    .card {
+        width: 80vw;
+    }
+
+    .containers {
+        justify-content: center;
+    }
+
+    .card-wrapper {
+        margin-top: 0rem;
+        margin-bottom: 2rem;
+    }
+
+    .card-wrapper::after {
+        content: "";
+        border: 0;
+    }
+
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+
+    body {
+        margin: .6rem;
+    }
+}
