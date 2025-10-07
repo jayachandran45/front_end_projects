@@ -152,7 +152,7 @@
 
       <h4 style="margin-top: 2rem">
         ⚠️ Note: Works only for Aadhaar-compliant biometric RD Services like
-        Startek FM220, Mantra MFS100, etc.
+        Startek FM220, Mantra MFS100, Morpho, etc.
       </h4>
     </div>
 
@@ -183,14 +183,30 @@
       async function detectRDServices() {
         loaderContainerEle.style.display = "flex";
         devices = [];
+
         for (let port = basePort; port <= maxPort; port++) {
           const testUrl = `http://localhost:${port}/rd/info`;
           try {
             const response = await fetch(testUrl, { method: "DEVICEINFO" });
             if (response.ok) {
               const text = await response.text();
-              devices.push({ port, url: `http://localhost:${port}`, info: text });
-              console.log(`✅ Found RD Service on port ${port}`);
+
+              // Extract device name from XML (dpId / rdsId)
+              const dpId = (text.match(/dpId="([^"]+)"/i) || [])[1];
+              const rdsId = (text.match(/rdsId="([^"]+)"/i) || [])[1];
+              let deviceName = "Unknown Device";
+              if (rdsId || dpId) {
+                deviceName = `${rdsId || ""} ${dpId || ""}`.trim();
+              }
+
+              devices.push({
+                port,
+                url: `http://localhost:${port}`,
+                name: deviceName,
+                info: text,
+              });
+
+              console.log(`✅ Found RD Service on port ${port} (${deviceName})`);
             }
           } catch (err) {
             console.log(`Port ${port} inactive`);
@@ -201,7 +217,7 @@
         renderDeviceList();
       }
 
-      // 🖥️ Render detected devices with checkboxes
+      // 🖥️ Render detected devices with name + port
       function renderDeviceList() {
         if (devices.length === 0) {
           deviceListEle.innerHTML =
@@ -214,7 +230,9 @@
           html += `
             <div class="device-item">
               <input type="checkbox" name="device" value="${d.port}" id="dev_${index}">
-              <label for="dev_${index}"> Port ${d.port} - ${d.url}</label>
+              <label for="dev_${index}">
+                <b>${d.name}</b> — Port ${d.port} (${d.url})
+              </label>
             </div>
           `;
         });
