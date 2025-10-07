@@ -162,43 +162,104 @@
     </div>
 
     <script>
-      const host = "http://localhost:11100";
-      const overlayEle = document.querySelector(".overlay");
-      const modalCloseBtn = document.querySelector(".close-icon");
-      const statusBtn = document.querySelector("#getStatus");
-      const detailsBtn = document.querySelector("#getDetails");
-      const CaptureBtn = document.querySelector("#getCapture");
-      const serviceHitBtns = document.querySelectorAll(".device-btn");
-      const modalContainerEle = document.querySelector(".modal-container");
-      const loaderContainerEle = document.querySelector(".loader-container")
-      let modalStatus = false;
-      let arrayBtnEle = [
-        {
-          element: statusBtn,
-          url: `${host}`,
-          requestOption: {
-            method: "RDSERVICE",
-            redirect: "follow",
-          },
-        },
-        {
-          element: detailsBtn,
-          url: `${host}/rd/info`,
-          requestOption: {
-            method: "DEVICEINFO",
-            redirect: "follow",
-          },
-        },
-        {
-          element: CaptureBtn,
-          url: `${host}/rd/capture`,
+  const basePort = 11100;
+  const maxPort = 11120;
+  let activeHost = null;
+  const overlayEle = document.querySelector(".overlay");
+  const modalCloseBtn = document.querySelector(".close-icon");
+  const statusBtn = document.querySelector("#getStatus");
+  const detailsBtn = document.querySelector("#getDetails");
+  const CaptureBtn = document.querySelector("#getCapture");
+  const serviceHitBtns = document.querySelectorAll(".device-btn");
+  const modalContainerEle = document.querySelector(".modal-container");
+  const loaderContainerEle = document.querySelector(".loader-container");
+  const modalEle = document.querySelector(".modal");
+  let modalStatus = false;
 
-          requestOption: {
-            method: "CAPTURE",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            body: `
+  // 🔍 Detect available RD service port
+  async function detectRDService() {
+    loaderContainerEle.style.display = "flex";
+    for (let port = basePort; port <= maxPort; port++) {
+      const testUrl = `http://localhost:${port}/rd/info`;
+      try {
+        const response = await fetch(testUrl, { method: "DEVICEINFO" });
+        if (response.ok) {
+          activeHost = `http://localhost:${port}`;
+          console.log(`✅ RD Service detected on port ${port}`);
+          loaderContainerEle.style.display = "none";
+          showMessage(`RD Service detected on port ${port}`);
+          return;
+        }
+      } catch (err) {
+        console.log(`Port ${port} inactive`);
+      }
+    }
+    loaderContainerEle.style.display = "none";
+    showMessage("❌ No RD Service detected on any port (11100–11120).");
+  }
+
+  function showMessage(msg) {
+    overlayEle.style.display = "flex";
+    modalContainerEle.style.display = "block";
+    modalEle.textContent = msg;
+    modalStatus = true;
+  }
+
+  // Close modal
+  function closeModal() {
+    if (modalStatus) {
+      overlayEle.style.display = "none";
+      modalContainerEle.style.display = "none";
+      modalEle.textContent = "";
+      modalStatus = false;
+    }
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  overlayEle.addEventListener("click", closeModal);
+
+  // Call RD service endpoint
+  async function callService(path, requestOptions) {
+    if (!activeHost) {
+      showMessage("RD Service not detected yet. Please wait...");
+      return;
+    }
+
+    overlayEle.style.display = "flex";
+    loaderContainerEle.style.display = "flex";
+
+    try {
+      const response = await fetch(`${activeHost}${path}`, requestOptions);
+      const result = await response.text();
+      appendXml(result);
+      loaderContainerEle.style.display = "none";
+      modalContainerEle.style.display = "block";
+      modalStatus = true;
+    } catch (error) {
+      console.log("error", error);
+      showMessage("Error connecting to RD Service.");
+    }
+  }
+
+  function appendXml(xmlString) {
+    const formattedXML = vkbeautify.xml(xmlString, 4);
+    modalEle.textContent = formattedXML;
+  }
+
+  // Attach events to buttons
+  statusBtn.addEventListener("click", () =>
+    callService("/", { method: "RDSERVICE" })
+  );
+
+  detailsBtn.addEventListener("click", () =>
+    callService("/rd/info", { method: "DEVICEINFO" })
+  );
+
+  CaptureBtn.addEventListener("click", () =>
+    callService("/rd/capture", {
+      method: "CAPTURE",
+      headers: { "Content-Type": "text/plain" },
+      body: `
 <PidOptions ver="1.0" env="P">
   <Opts 
     fCount="1" 
@@ -212,68 +273,13 @@
   />
 </PidOptions>
 `,
-            redirect: "follow",
-          },
-        },
-      ];
+    })
+  );
 
-      // close the modal
-      modalCloseBtn.addEventListener("click", (e) => {
-        if (modalStatus) {
-          overlayEle.style.display = "none";
-          modalContainerEle.style.display = "none";
-          const divEle = document.querySelector(".modal");
-          divEle.textContent = "";
-        }
-      });
+  // 🕐 Detect RD Service when page loads
+  detectRDService();
+</script>
 
-      overlayEle.addEventListener("click", (e) => {
-        if (modalStatus) {
-          overlayEle.style.display = "none";
-          modalContainerEle.style.display = "none";
-          const divEle = document.querySelector(".modal");
-          divEle.textContent = "";
-        }
-      });
-
-      overlayEle.addEventListener("click", (e) => {
-        console.log("overlay is clicked");
-      });
-
-      function callService(url, requestOptions) {
-        overlayEle.style.display = "flex";
-        loaderContainerEle.style.display = "flex"
-        fetch(url, requestOptions)
-          .then((response) => response.text())
-          .then((result) => {
-            console.log(result);
-            appendXml(result);
-            loaderContainerEle.style.display = "none"
-            modalContainerEle.style.display = "block";
-            modalStatus = true;
-          })
-          .catch((error) => console.log("error", error));
-      }
-
-      function appendXml(xmlString) {
-        const divEle = document.querySelector(".modal");
-        console.log(divEle.innerHTML.length);
-        const formattedXML = vkbeautify.xml(xmlString, 4);
-        divEle.textContent = formattedXML;
-        console.log(divEle.innerHTML.length);
-      }
-
-      serviceHitBtns.forEach((ele) => {
-        ele.addEventListener("click", () => {
-          arrayBtnEle.forEach((e) => {
-            if (ele.id == e.element.id) {
-              console.log(e.element.id);
-              callService(e.url, e.requestOption);
-            }
-          });
-        });
-      });
-    </script>
   </body>
 </html>
 
