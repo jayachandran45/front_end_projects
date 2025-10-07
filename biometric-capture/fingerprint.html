@@ -3,263 +3,294 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>RD Service Device Scanner</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/gh/vkiryukhin/vkBeautify/vkbeautify.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        padding: 1.5rem 2rem;
+      }
+
+      .device-btn {
+        border-radius: 0.3rem;
+        border: 0.12rem solid black;
+        letter-spacing: 0.2px;
+        font-weight: 650;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 0.4rem 0.8rem;
+        margin-right: 0.6rem;
+      }
+
+      .device-btn:hover {
+        background-color: rgb(61, 61, 61);
+        color: white;
+      }
+
+      .modal-container {
+        position: relative;
+        border: 2px solid black;
+        padding: 1rem;
+        background-color: white;
+        width: 80%;
+        left: 10%;
+        top: 1rem;
+        display: none;
+        border-radius: 0.6rem;
+      }
+
+      .modal {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        max-height: 50vh;
+        overflow: auto;
+        margin-top: 1rem;
+      }
+
+      .close-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #f44336;
+        cursor: pointer;
+        border: 2px solid red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.8rem;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        border-radius: 0.4rem;
+      }
+
+      .close-icon:hover {
+        color: #d32f2f;
+        border: 2px solid #d32f2f;
+      }
+
+      .overlay {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        width: 100vw;
+        background-color: rgba(215, 215, 215, 0.801);
+        position: absolute;
+        top: 0;
+      }
+
+      .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-container {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: calc(50% - 20px);
+        z-index: 2;
+      }
+
+      .device-list {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+
+      .device-item {
+        margin-bottom: 0.6rem;
+      }
+    </style>
   </head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
-    .container {
-      padding: 0 2rem ;
-    }
-    .container > button {
-      border-radius: 0.3rem;
-      border: 0.12rem solid black;
-      letter-spacing: .2px;
-      font-weight: 650;
-      font-size: .9rem;
-    }
-    .container > button:hover{
-      background-color: rgb(61, 61, 61);
-      color: white;
-    }
-    button {
-      cursor: pointer;
-      padding: 0.4rem;
-    }
-    .modal-container {
-      position: relative;
-      border: 2px solid black;
-      padding: 1rem;
-      background-color: rgb(255, 255, 255);
-      max-width: 80%;
-      min-width: 80%;
-      left: 10%;
-      top: 1rem;
-      display: none;
-      border-radius: .6rem;
-    }
-    .modal {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      max-height: 50vh;
-      overflow: auto;
-      margin-top: 1rem;
-      
-    }
-    .close-icon {
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: #f44336; /* Red color */
-      text-decoration: none;
-      cursor: pointer;
-      border: 2px solid red;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.8rem;
-      width: 20px;
-      height: 20px;
-      font-size: 20px;
-      border-radius: .4rem;
-    }
-
-    .close-icon:hover {
-      color: #d32f2f;
-      border: 2px solid #d32f2f;
-    }
-
-    .overlay {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      width: 100vw;
-      background-color: rgba(215, 215, 215, 0.801);
-      position: absolute;
-      top: 0;
-      display: none;
-      max-height: 200vh;
-    }
-    .note{
-      margin-top: 3rem;
-      margin-bottom: .4rem;
-    }
-    .click-navigation-text{
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-      text-decoration: underline;
-    text-underline-offset: .2rem;
-      text-decoration-thickness: 2px;
-  }
-    h4{
-      letter-spacing: .2px;
-      font-weight: 500;
-    }
-    a{
-      margin: 0 .2rem;
-    }
-    img{
-      width: 2rem;
-      transform:rotate(180deg);
-      position: relative;
-      top: .8rem;
-    }
-    .loader {
-            border: 8px solid #f3f3f3; /* Light grey */
-            border-top: 8px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loader-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: absolute;
-            top: 0;
-            left: calc(50% - 20px); 
-            display: none;
-            z-index: 2;
-            }
-  </style>
   <body>
     <div class="loader-container">
       <div class="loader"></div>
-  </div>
+    </div>
+
     <div class="container">
-      <h4 class="click-navigation-text"><img src="swipe-up.gif" alt="">Click the below buttons to call the interface and get data </h4>
+      <h3>🔍 RD Service Device Scanner (11100–11120)</h3>
+      <div class="device-list" id="deviceList">Scanning for active devices...</div>
+
       <button id="getStatus" class="device-btn">Get Status</button>
       <button id="getDetails" class="device-btn">Get Details</button>
-      <button id="getCapture" class="device-btn">Capture bio</button>
-      <h4 class="note"><b style="background-color: rgb(255, 0, 0);color: rgb(255, 255, 255);padding:2px 3px;margin-right: 1.5px;"> Note : </b> This will work only for specific biometric device. In this case it is <i style="background-color: yellow;">RD service for Startek FM220 provided by Access Computech.</i></h5>
-      <h4 class="info">To learn how to call the interface and get biometric data. Check this official Integration pdf <a target="_blank" href="https://acpl.in.net/assets/pdf/L1_RD_Intrgration_Guide_V1.0.pdf">https://acpl.in.net/assets/pdf/L1_RD_Intrgration_Guide_V1.0.pdf</a><br>
-      or else check their website <a target="_blank" href="https://acpl.in.net/">https://acpl.in.net/</a> to get to know more! 
-      </h4>    
+      <button id="getCapture" class="device-btn">Capture Bio</button>
+
+      <h4 style="margin-top: 2rem">
+        ⚠️ Note: Works only for Aadhaar-compliant biometric RD Services like
+        Startek FM220, Mantra MFS100, etc.
+      </h4>
     </div>
+
     <div class="overlay"></div>
     <div class="modal-container">
-      <span class="close-icon" title="Close modal"> <i class="fas fa-times"></i></span>
+      <span class="close-icon" title="Close modal">
+        <i class="fas fa-times"></i>
+      </span>
       <div class="modal"></div>
     </div>
 
     <script>
-  const basePort = 11100;
-  const maxPort = 11120;
-  let activeHost = null;
-  const overlayEle = document.querySelector(".overlay");
-  const modalCloseBtn = document.querySelector(".close-icon");
-  const statusBtn = document.querySelector("#getStatus");
-  const detailsBtn = document.querySelector("#getDetails");
-  const CaptureBtn = document.querySelector("#getCapture");
-  const serviceHitBtns = document.querySelectorAll(".device-btn");
-  const modalContainerEle = document.querySelector(".modal-container");
-  const loaderContainerEle = document.querySelector(".loader-container");
-  const modalEle = document.querySelector(".modal");
-  let modalStatus = false;
+      const basePort = 11100;
+      const maxPort = 11120;
+      const overlayEle = document.querySelector(".overlay");
+      const modalCloseBtn = document.querySelector(".close-icon");
+      const statusBtn = document.querySelector("#getStatus");
+      const detailsBtn = document.querySelector("#getDetails");
+      const CaptureBtn = document.querySelector("#getCapture");
+      const modalContainerEle = document.querySelector(".modal-container");
+      const loaderContainerEle = document.querySelector(".loader-container");
+      const modalEle = document.querySelector(".modal");
+      const deviceListEle = document.querySelector("#deviceList");
+      let modalStatus = false;
+      let devices = []; // Store detected devices
 
-  // 🔍 Detect available RD service port
-  async function detectRDService() {
-    loaderContainerEle.style.display = "flex";
-    for (let port = basePort; port <= maxPort; port++) {
-      const testUrl = `http://localhost:${port}/rd/info`;
-      try {
-        const response = await fetch(testUrl, { method: "DEVICEINFO" });
-        if (response.ok) {
-          activeHost = `http://localhost:${port}`;
-          console.log(`✅ RD Service detected on port ${port}`);
-          loaderContainerEle.style.display = "none";
-          showMessage(`RD Service detected on port ${port}`);
+      // 🔍 Detect all active RD services
+      async function detectRDServices() {
+        loaderContainerEle.style.display = "flex";
+        devices = [];
+        for (let port = basePort; port <= maxPort; port++) {
+          const testUrl = `http://localhost:${port}/rd/info`;
+          try {
+            const response = await fetch(testUrl, { method: "DEVICEINFO" });
+            if (response.ok) {
+              const text = await response.text();
+              devices.push({ port, url: `http://localhost:${port}`, info: text });
+              console.log(`✅ Found RD Service on port ${port}`);
+            }
+          } catch (err) {
+            console.log(`Port ${port} inactive`);
+          }
+        }
+
+        loaderContainerEle.style.display = "none";
+        renderDeviceList();
+      }
+
+      // 🖥️ Render detected devices with checkboxes
+      function renderDeviceList() {
+        if (devices.length === 0) {
+          deviceListEle.innerHTML =
+            "<b>No RD services detected on ports 11100–11120.</b>";
           return;
         }
-      } catch (err) {
-        console.log(`Port ${port} inactive`);
+
+        let html = "<b>Detected RD Services:</b><br><br>";
+        devices.forEach((d, index) => {
+          html += `
+            <div class="device-item">
+              <input type="checkbox" name="device" value="${d.port}" id="dev_${index}">
+              <label for="dev_${index}"> Port ${d.port} - ${d.url}</label>
+            </div>
+          `;
+        });
+        deviceListEle.innerHTML = html;
       }
-    }
-    loaderContainerEle.style.display = "none";
-    showMessage("❌ No RD Service detected on any port (11100–11120).");
-  }
 
-  function showMessage(msg) {
-    overlayEle.style.display = "flex";
-    modalContainerEle.style.display = "block";
-    modalEle.textContent = msg;
-    modalStatus = true;
-  }
+      // 🧠 Get selected port
+      function getSelectedPort() {
+        const selected = document.querySelector('input[name="device"]:checked');
+        if (!selected) {
+          showMessage("Please select a device port first.");
+          return null;
+        }
+        const selectedDevice = devices.find((d) => d.port == selected.value);
+        return selectedDevice;
+      }
 
-  // Close modal
-  function closeModal() {
-    if (modalStatus) {
-      overlayEle.style.display = "none";
-      modalContainerEle.style.display = "none";
-      modalEle.textContent = "";
-      modalStatus = false;
-    }
-  }
+      // 📞 Call RD service API
+      async function callService(path, requestOptions) {
+        const selectedDevice = getSelectedPort();
+        if (!selectedDevice) return;
 
-  modalCloseBtn.addEventListener("click", closeModal);
-  overlayEle.addEventListener("click", closeModal);
+        overlayEle.style.display = "flex";
+        loaderContainerEle.style.display = "flex";
 
-  // Call RD service endpoint
-  async function callService(path, requestOptions) {
-    if (!activeHost) {
-      showMessage("RD Service not detected yet. Please wait...");
-      return;
-    }
+        try {
+          const response = await fetch(`${selectedDevice.url}${path}`, requestOptions);
+          const result = await response.text();
+          appendXml(result);
+          loaderContainerEle.style.display = "none";
+          modalContainerEle.style.display = "block";
+          modalStatus = true;
+        } catch (error) {
+          loaderContainerEle.style.display = "none";
+          showMessage("Error connecting to RD Service.");
+        }
+      }
 
-    overlayEle.style.display = "flex";
-    loaderContainerEle.style.display = "flex";
+      function appendXml(xmlString) {
+        const formattedXML = vkbeautify.xml(xmlString, 4);
+        modalEle.textContent = formattedXML;
+      }
 
-    try {
-      const response = await fetch(`${activeHost}${path}`, requestOptions);
-      const result = await response.text();
-      appendXml(result);
-      loaderContainerEle.style.display = "none";
-      modalContainerEle.style.display = "block";
-      modalStatus = true;
-    } catch (error) {
-      console.log("error", error);
-      showMessage("Error connecting to RD Service.");
-    }
-  }
+      function showMessage(msg) {
+        overlayEle.style.display = "flex";
+        modalContainerEle.style.display = "block";
+        modalEle.textContent = msg;
+        modalStatus = true;
+      }
 
-  function appendXml(xmlString) {
-    const formattedXML = vkbeautify.xml(xmlString, 4);
-    modalEle.textContent = formattedXML;
-  }
+      function closeModal() {
+        if (modalStatus) {
+          overlayEle.style.display = "none";
+          modalContainerEle.style.display = "none";
+          modalEle.textContent = "";
+          modalStatus = false;
+        }
+      }
 
-  // Attach events to buttons
-  statusBtn.addEventListener("click", () =>
-    callService("/", { method: "RDSERVICE" })
-  );
+      modalCloseBtn.addEventListener("click", closeModal);
+      overlayEle.addEventListener("click", closeModal);
 
-  detailsBtn.addEventListener("click", () =>
-    callService("/rd/info", { method: "DEVICEINFO" })
-  );
+      // Attach button handlers
+      statusBtn.addEventListener("click", () =>
+        callService("/", { method: "RDSERVICE" })
+      );
 
-  CaptureBtn.addEventListener("click", () =>
-    callService("/rd/capture", {
-      method: "CAPTURE",
-      headers: { "Content-Type": "text/plain" },
-      body: `
+      detailsBtn.addEventListener("click", () =>
+        callService("/rd/info", { method: "DEVICEINFO" })
+      );
+
+      CaptureBtn.addEventListener("click", () =>
+        callService("/rd/capture", {
+          method: "CAPTURE",
+          headers: { "Content-Type": "text/plain" },
+          body: `
 <PidOptions ver="1.0" env="P">
   <Opts 
     fCount="1" 
@@ -271,15 +302,12 @@
     env="P" 
     wadh="" 
   />
-</PidOptions>
-`,
-    })
-  );
+</PidOptions>`,
+        })
+      );
 
-  // 🕐 Detect RD Service when page loads
-  detectRDService();
-</script>
-
+      // Auto-detect devices on load
+      detectRDServices();
+    </script>
   </body>
 </html>
-
