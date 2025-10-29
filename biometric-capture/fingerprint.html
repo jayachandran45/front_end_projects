@@ -177,47 +177,61 @@
       const modalEle = document.querySelector(".modal");
       const deviceListEle = document.querySelector("#deviceList");
       let modalStatus = false;
-      let devices = []; // Store detected devices
+      let devices = [];
 
-      // 🔍 Detect all active RD services
+      // Custom fetch with timeout (2 seconds)
+      function fetchWithTimeout(url, options, timeout = 2000) {
+        return Promise.race([
+          fetch(url, options),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), timeout)
+          ),
+        ]);
+      }
+
+      // ⚡ Fast parallel port scanner
       async function detectRDServices() {
         loaderContainerEle.style.display = "flex";
         devices = [];
 
+        const scanPromises = [];
+
         for (let port = basePort; port <= maxPort; port++) {
           const testUrl = `http://localhost:${port}/rd/info`;
-          try {
-            const response = await fetch(testUrl, { method: "DEVICEINFO" });
-            if (response.ok) {
-              const text = await response.text();
 
-              // Extract device name from XML (dpId / rdsId)
-              const dpId = (text.match(/dpId="([^"]+)"/i) || [])[1];
-              const rdsId = (text.match(/rdsId="([^"]+)"/i) || [])[1];
-              let deviceName = "Unknown Device";
-              if (rdsId || dpId) {
-                deviceName = `${rdsId || ""} ${dpId || ""}`.trim();
+          const promise = fetchWithTimeout(testUrl, { method: "DEVICEINFO" })
+            .then(async (response) => {
+              if (response.ok) {
+                const text = await response.text();
+                const dpId = (text.match(/dpId="([^"]+)"/i) || [])[1];
+                const rdsId = (text.match(/rdsId="([^"]+)"/i) || [])[1];
+                const deviceName =
+                  `${rdsId || ""} ${dpId || ""}`.trim() || "Unknown Device";
+
+                return {
+                  port,
+                  url: `http://localhost:${port}`,
+                  name: deviceName,
+                  info: text,
+                };
               }
+              return null;
+            })
+            .catch(() => null);
 
-              devices.push({
-                port,
-                url: `http://localhost:${port}`,
-                name: deviceName,
-                info: text,
-              });
-
-              console.log(`✅ Found RD Service on port ${port} (${deviceName})`);
-            }
-          } catch (err) {
-            console.log(`Port ${port} inactive`);
-          }
+          scanPromises.push(promise);
         }
+
+        const results = await Promise.allSettled(scanPromises);
+
+        results.forEach((res) => {
+          if (res.status === "fulfilled" && res.value) devices.push(res.value);
+        });
 
         loaderContainerEle.style.display = "none";
         renderDeviceList();
       }
 
-      // 🖥️ Render detected devices with name + port
       function renderDeviceList() {
         if (devices.length === 0) {
           deviceListEle.innerHTML =
@@ -239,7 +253,6 @@
         deviceListEle.innerHTML = html;
       }
 
-      // 🧠 Get selected port
       function getSelectedPort() {
         const selected = document.querySelector('input[name="device"]:checked');
         if (!selected) {
@@ -250,7 +263,6 @@
         return selectedDevice;
       }
 
-      // 📞 Call RD service API
       async function callService(path, requestOptions) {
         const selectedDevice = getSelectedPort();
         if (!selectedDevice) return;
@@ -295,7 +307,6 @@
       modalCloseBtn.addEventListener("click", closeModal);
       overlayEle.addEventListener("click", closeModal);
 
-      // Attach button handlers
       statusBtn.addEventListener("click", () =>
         callService("/", { method: "RDSERVICE" })
       );
