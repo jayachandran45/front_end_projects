@@ -1,32 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universal RD Service Proxy Capture</title>
+
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button {
+      padding: 10px 16px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      cursor: pointer; margin-right: 10px; font-weight: bold;
+    }
+    button:hover { background-color: black; color: white; }
+    pre {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: #f8f8f8;
+      height: 300px;
+      overflow: auto;
+    }
+  </style>
+
+</head>
 <body>
-<h3>RD Browser Test</h3>
 
-<button onclick="call('status')">Check Status</button>
-<button onclick="call('info')">Device Info</button>
-<button onclick="capture()">Capture</button>
+<h2>🔍 Aadhaar RD Capture via Chrome-Safe Proxy</h2>
 
-<pre id="res"></pre>
+<p>Status: <span id="status" style="font-weight:bold;color:brown">Not connected</span></p>
+
+<button onclick="callProxy('status')">Check Service</button>
+<button onclick="callProxy('info')">Get Device Info</button>
+<button onclick="capture()">Capture Biometric</button>
+
+<pre id="output">Waiting...</pre>
 
 <script>
-async function call(action){
-    let r = await fetch(`http://localhost:5055/?action=${action}`);
-    document.getElementById('res').innerText = await r.text();
+const proxy = "http://localhost:5055";
+
+async function callProxy(action) {
+  document.getElementById("status").innerText = "Processing...";
+  
+  try {
+    const res = await fetch(`${proxy}/?action=${action}`);
+    const text = await res.text();
+    
+    document.getElementById("output").innerText = text;
+    document.getElementById("status").innerText = "✔ OK";
+  } catch (e) {
+    document.getElementById("output").innerText = "❌ ERROR: " + e;
+    document.getElementById("status").innerText = "Failed";
+  }
 }
 
-async function capture(){
-    const xml = `
+async function capture() {
+  const pidOptions = `
 <PidOptions ver="1.0">
- <Opts fCount="1" fType="2" pidVer="2.0" format="0" timeout="20000"/>
+  <Opts 
+    fCount="1" 
+    fType="2" 
+    format="0" 
+    pidVer="2.0" 
+    timeout="20000" 
+    wadh="" 
+  />
 </PidOptions>`;
 
-    let r = await fetch(`http://localhost:5055/?action=capture`, {
-        method:"POST",
-        body:xml
+  document.getElementById("status").innerText = "Capturing...";
+
+  try {
+    const res = await fetch(`${proxy}/?action=capture`, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: pidOptions
     });
-    document.getElementById('res').innerText = await r.text();
+
+    const text = await res.text();
+    document.getElementById("output").innerText = text;
+    document.getElementById("status").innerText = "✔ Capture Done";
+  } catch (e) {
+    document.getElementById("output").innerText = "❌ ERROR: " + e;
+    document.getElementById("status").innerText = "Capture Failed";
+  }
 }
 </script>
+
 </body>
 </html>
