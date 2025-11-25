@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>RD Browser Test</h3>
+
+<button onclick="call('status')">Check Status</button>
+<button onclick="call('info')">Device Info</button>
+<button onclick="capture()">Capture</button>
+
+<pre id="res"></pre>
+
+<script>
+async function call(action){
+    let r = await fetch(`http://localhost:5055/?action=${action}`);
+    document.getElementById('res').innerText = await r.text();
+}
+
+async function capture(){
+    const xml = `
+<PidOptions ver="1.0">
+ <Opts fCount="1" fType="2" pidVer="2.0" format="0" timeout="20000"/>
+</PidOptions>`;
+
+    let r = await fetch(`http://localhost:5055/?action=capture`, {
+        method:"POST",
+        body:xml
+    });
+    document.getElementById('res').innerText = await r.text();
+}
+</script>
+</body>
+</html>
