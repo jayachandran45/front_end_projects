@@ -344,20 +344,20 @@
   } else {
     // Iris
     pidOptions = `
-<PidOptions ver="1.0" env="P">
+<PidOptions ver="1.0">
   <Opts 
-    fCount="0" 
-    fType="0" 
     iCount="1"
     iType="0"
-    format="0" 
-    pidVer="2.0" 
-    timeout="20000" 
-    posh="UNKNOWN" 
-    env="P" 
-    wadh="" 
+    format="1"
+    pidVer="2.0"
+    timeout="20000"
+    posh="UNKNOWN"
+    env="P"
+    wadh=""
   />
-</PidOptions>`;
+  <Demo></Demo>
+  <CustOpts></CustOpts>
+</PidOptions>`;;
   }
 
   callService("/rd/capture", {
