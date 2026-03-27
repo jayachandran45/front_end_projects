@@ -146,6 +146,12 @@
       <h3>🔍 RD Service Device Scanner (11100–11120)</h3>
       <div class="device-list" id="deviceList">Scanning for active devices...</div>
 
+      <label style="margin-left:10px;"><b>Capture Type:</b></label>
+<select id="captureType" class="device-btn">
+  <option value="bio">Biometric (Fingerprint)</option>
+  <option value="iris">Iris</option>
+</select>
+      
       <button id="getStatus" class="device-btn">Get Status</button>
       <button id="getDetails" class="device-btn">Get Details</button>
       <button id="getCapture" class="device-btn">Capture Bio</button>
@@ -315,11 +321,14 @@
         callService("/rd/info", { method: "DEVICEINFO" })
       );
 
-      CaptureBtn.addEventListener("click", () =>
-        callService("/rd/capture", {
-          method: "CAPTURE",
-          headers: { "Content-Type": "text/plain" },
-          body: `
+    CaptureBtn.addEventListener("click", () => {
+  const type = document.getElementById("captureType").value;
+
+  let pidOptions = "";
+
+  if (type === "bio") {
+    // Fingerprint
+    pidOptions = `
 <PidOptions ver="1.0" env="P">
   <Opts 
     fCount="1" 
@@ -331,9 +340,32 @@
     env="P" 
     wadh="" 
   />
-</PidOptions>`,
-        })
-      );
+</PidOptions>`;
+  } else {
+    // Iris
+    pidOptions = `
+<PidOptions ver="1.0" env="P">
+  <Opts 
+    fCount="0" 
+    fType="0" 
+    iCount="1"
+    iType="0"
+    format="0" 
+    pidVer="2.0" 
+    timeout="20000" 
+    posh="UNKNOWN" 
+    env="P" 
+    wadh="" 
+  />
+</PidOptions>`;
+  }
+
+  callService("/rd/capture", {
+    method: "CAPTURE",
+    headers: { "Content-Type": "text/plain" },
+    body: pidOptions,
+  });
+});
 
       // Auto-detect devices on load
       detectRDServices();
