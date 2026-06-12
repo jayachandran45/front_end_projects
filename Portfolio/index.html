@@ -1,0 +1,484 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Jayachandran K | Java Enterprise Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001c37",
+                        "on-secondary-fixed": "#25005a",
+                        "on-primary-fixed-variant": "#314865",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-surface": "#2e3034",
+                        "surface-tint": "#49607e",
+                        "outline-variant": "#c4c6ce",
+                        "surface-variant": "#e2e2e7",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ededf2",
+                        "on-surface-variant": "#43474d",
+                        "primary-container": "#0a2540",
+                        "surface-container-low": "#f3f3f8",
+                        "secondary": "#6f33d7",
+                        "on-background": "#1a1c1f",
+                        "primary-fixed": "#d2e4ff",
+                        "background": "#f9f9fe",
+                        "surface-dim": "#d9dade",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9fe",
+                        "primary": "#000f22",
+                        "inverse-on-surface": "#f0f0f5",
+                        "tertiary-fixed": "#d5e3fc",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "on-secondary-fixed-variant": "#590cc1",
+                        "on-primary-container": "#768dad",
+                        "surface-container-high": "#e7e8ed",
+                        "on-tertiary-container": "#7e8ca2",
+                        "tertiary-fixed-dim": "#b9c7df",
+                        "outline": "#74777e",
+                        "secondary-fixed": "#eaddff",
+                        "surface-bright": "#f9f9fe",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "on-tertiary-fixed-variant": "#3a485b",
+                        "inverse-primary": "#b0c8eb",
+                        "on-tertiary-fixed": "#0d1c2e",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1f",
+                        "tertiary": "#020f20",
+                        "tertiary-container": "#172537",
+                        "secondary-container": "#8951f2",
+                        "surface-container-highest": "#e2e2e7",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "section-gap": "120px",
+                        "unit": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "code-sm": ["JetBrains Mono"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "800"}],
+                        "code-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 4px 20px rgba(10, 37, 64, 0.05);
+            border-color: #6f33d7;
+        }
+        .grid-pattern {
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md dark:bg-surface-container/80 docked full-width top-0 sticky z-50 border-b border-outline-variant/30 dark:border-outline/20">
+<nav class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+<div class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed">Jayachandran K</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#experience">Experience</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#projects">Projects</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#skills">Skills</a>
+<a class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-80 transition-all" href="#contact">Get in Touch</a>
+</div>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+</header>
+<!-- Hero Section -->
+<section class="relative min-h-[80vh] flex items-center pt-20 overflow-hidden grid-pattern">
+<div class="max-w-container-max mx-auto px-margin-desktop w-full grid md:grid-cols-2 gap-12 items-center relative z-10">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container/10 text-secondary border border-secondary/20 rounded-full mb-6">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-md text-label-md">Available for Enterprise Solutions</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary mb-6">
+                    Architecting Secure <span class="text-secondary">Java Enterprise</span> Ecosystems.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-lg">
+                    Java Enterprise Developer at <span class="font-bold text-primary">EastCS</span>, specializing in mission-critical Aadhaar eSign, eKYC, and VKYC infrastructures with high-performance Java EE architectures.
+                </p>
+<div class="flex flex-wrap gap-4">
+<a class="px-8 py-4 bg-primary text-on-primary rounded-lg font-headline-sm text-label-md flex items-center gap-2 hover:opacity-90 transition-all" href="#projects">
+                        View Projects <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<a class="px-8 py-4 border border-outline text-primary rounded-lg font-headline-sm text-label-md hover:bg-surface-container-low transition-all" href="#contact">
+                        Technical Stack
+                    </a>
+</div>
+<div class="mt-12 flex gap-8">
+<div>
+<div class="font-headline-sm text-headline-sm text-primary">3+ Years</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Experience</div>
+</div>
+<div class="w-px h-12 bg-outline/20"></div>
+<div>
+<div class="font-headline-sm text-headline-sm text-primary">10+ Systems</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Integrated</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-secondary/5 rounded-3xl blur-3xl group-hover:bg-secondary/10 transition-all duration-500"></div>
+<div class="relative overflow-hidden rounded-2xl border border-outline/10 shadow-2xl">
+<img alt="Jayachandran K" class="w-full h-full object-cover aspect-square" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBboD1vz2h9KW18PAzDiIM9fKhUP9IxkFFbRUwxWrPH6Uebwf73vypyTAmqBSe0P9b6JDtP3pDRjyoeqQDP65vEaq2iW-2gyeOi_qi6gwKkDgpJzpvrP-aAKNwsV6tGiJIN5SXIENkU0l10FiqLO2WA8PneWndPYG2A-0YYT2m2xi1ukGdGWVrhzU0gOsdMQFs2vYcO6WY9blsJwNJWAroZdvq3S79qTERDjXQshIXrLACESwkfCuMAl-C9nunBJxShc49sR6_YMqo">
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary/80 to-transparent text-on-primary">
+<div class="font-headline-sm text-headline-sm">Jayachandran K</div>
+<div class="font-label-md text-label-md opacity-80">Java Enterprise Developer, EastCS</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Experience Timeline -->
+<section class="py-section-gap bg-surface-container-lowest opacity-0 transition-all duration-700 opacity-100" id="experience">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="max-w-3xl mb-16">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Professional Journey</h2>
+<div class="w-20 h-1.5 bg-secondary rounded-full"></div>
+</div>
+<div class="grid md:grid-cols-12 gap-12">
+<div class="md:col-span-4">
+<div class="sticky top-32 p-8 bg-white border border-outline/10 rounded-2xl shadow-sm">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">business</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm">EastCS</h3>
+<p class="text-on-surface-variant">Bangalore, IN</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Focusing on digital transformation products involving Aadhaar authentication, digital signatures, and high-security fintech integrations.
+                        </p>
+</div>
+</div>
+<div class="md:col-span-8 space-y-12">
+<div class="relative pl-12 border-l-2 border-outline-variant">
+<div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-secondary border-4 border-surface shadow-md"></div>
+<div class="mb-2">
+<span class="px-3 py-1 bg-primary text-on-primary text-xs font-bold rounded uppercase">Current Role</span>
+<span class="ml-4 text-on-surface-variant font-code-sm text-code-sm">2023 — PRESENT</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-4">Java Enterprise Developer</h4>
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                Lead development of eSign and eKYC product suites using Java EE.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                Architected secure XML/JSON payload handling for NSDL/CDSL API integrations.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                Optimized WildFly/JBoss EAP server deployments for high-availability production environments.
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Projects Bento Grid -->
+<section class="py-section-gap bg-background" id="projects">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Enterprise Engineering</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">
+                    Solving complex regulatory and technical challenges through robust software architecture and legacy system modernization.
+                </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Project 1: eSign -->
+<div class="md:col-span-8 bento-card bg-white border border-outline/10 p-8 rounded-2xl flex flex-col justify-between opacity-0 transition-all duration-700 opacity-100">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl">ink_pen</span>
+</div>
+<span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full font-label-md text-label-md">Live Platform</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">eSign with Aadhaar</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                            Engineered a comprehensive digital signature workflow system compliant with Indian regulatory standards. Implemented secure XML/encrypted payload exchange with NSDL/CDSL APIs.
+                        </p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-surface-container rounded-lg font-code-sm text-code-sm">Java EE</span>
+<span class="px-3 py-1 bg-surface-container rounded-lg font-code-sm text-code-sm">Servlets</span>
+<span class="px-3 py-1 bg-surface-container rounded-lg font-code-sm text-code-sm">JPA</span>
+<span class="px-3 py-1 bg-surface-container rounded-lg font-code-sm text-code-sm">WildFly</span>
+<span class="px-3 py-1 bg-surface-container rounded-lg font-code-sm text-code-sm">MySQL</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-primary font-bold">Case Study <span class="material-symbols-outlined">north_east</span></button>
+</div>
+</div>
+<!-- Project 2: eKYC -->
+<div class="md:col-span-4 bento-card bg-white border border-outline/10 p-8 rounded-2xl opacity-0 transition-all duration-700 opacity-100">
+<div class="w-14 h-14 bg-secondary/5 rounded-xl flex items-center justify-center text-secondary mb-6">
+<span class="material-symbols-outlined text-4xl">fingerprint</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">eKYC Integration</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        Seamless integration of OTP and biometric-based Aadhaar verification, including automated PAN validation and server-side compliance checks.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">JSP</span>
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">JDBC</span>
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">Security APIs</span>
+</div>
+</div>
+<!-- Project 3: VKYC -->
+<div class="md:col-span-5 bento-card bg-white border border-outline/10 p-8 rounded-2xl opacity-0 transition-all duration-700 opacity-100">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center text-primary-container mb-6">
+<span class="material-symbols-outlined text-4xl">videocam</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Video KYC (VKYC)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        Developed a browser-native video recording interface using Canvas and MediaRecorder APIs. Solved complex cross-browser codec and GPU acceleration issues.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">Vanilla JS</span>
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">Canvas API</span>
+<span class="px-2 py-1 bg-surface-container rounded font-code-sm text-code-sm">MediaRecorder</span>
+</div>
+</div>
+<!-- Project 4: Legacy -->
+<div class="md:col-span-7 bento-card bg-primary-container text-on-primary p-8 rounded-2xl flex flex-col justify-between opacity-0 transition-all duration-700 opacity-100">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary-fixed">settings_backup_restore</span>
+<h3 class="font-headline-sm text-headline-sm">Server &amp; Legacy Operations</h3>
+</div>
+<p class="font-body-md text-body-md text-on-primary-container mb-8">
+                            Specialized in the management and modernization of legacy enterprise infrastructure. Managed WAR/EAR deployments across WildFly and JBoss EAP clusters, handling complex server log analysis and JVM tuning.
+                        </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-white/5 border border-white/10 rounded-xl">
+<div class="font-label-md text-label-md text-secondary-fixed mb-1 uppercase">Infrastructure</div>
+<div class="font-headline-sm text-headline-sm">JBoss EAP</div>
+</div>
+<div class="p-4 bg-white/5 border border-white/10 rounded-xl">
+<div class="font-label-md text-label-md text-secondary-fixed mb-1 uppercase">Deployment</div>
+<div class="font-headline-sm text-headline-sm">WAR/EAR</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Grid -->
+<section class="py-section-gap bg-surface-container-low overflow-hidden" id="skills">
+<div class="max-w-container-max mx-auto px-margin-desktop opacity-0 transition-all duration-700 opacity-100">
+<div class="grid lg:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-6">Technical Arsenal</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                        A deep-rooted understanding of Java ecosystems combined with modern frontend capabilities and rigorous security standards.
+                    </p>
+<div class="space-y-8">
+<div class="group">
+<div class="flex justify-between mb-4">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-widest">Enterprise Backend</h4>
+<span class="font-code-sm text-code-sm text-secondary">Advanced</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Java EE (JEE)</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Servlets / JSP</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">EJB / JPA</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Hibernate</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Struts</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Spring Boot</span><span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Spring Framework</span><span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Spring Security</span></div>
+</div>
+<div class="group">
+<div class="flex justify-between mb-4">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-widest">DevOps &amp; Server</h4>
+<span class="font-code-sm text-code-sm text-secondary">Professional</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">WildFly / JBoss</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Linux Admin</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Nginx / Apache</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">MySQL Ops</span>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between mb-4">
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-widest">Security &amp; API</h4>
+<span class="font-code-sm text-code-sm text-secondary">Expertise</span>
+</div>
+<div class="flex flex-wrap gap-2"><span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Aadhaar eKYC</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">PKI / AES</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">API Integration</span>
+<span class="px-4 py-2 bg-white border border-outline/10 rounded-lg shadow-sm font-body-md">Signature Authentication</span></div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-10 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="relative grid grid-cols-2 gap-4">
+<div class="space-y-4 pt-12">
+<div class="bg-white p-6 rounded-2xl shadow-xl border border-outline/5">
+<span class="material-symbols-outlined text-4xl text-secondary mb-4" data-weight="fill">security</span>
+<h5 class="font-headline-sm text-headline-sm text-primary mb-2">Secure</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Encryption standard adherence (AES/PKI).</p>
+</div>
+<div class="bg-primary-container p-6 rounded-2xl shadow-xl">
+<span class="material-symbols-outlined text-4xl text-secondary-fixed-dim mb-4">database</span>
+<h5 class="font-headline-sm text-headline-sm text-on-primary mb-2">Scalable</h5>
+<p class="font-body-md text-body-md text-on-primary-container">Optimized SQL &amp; Server Tuning.</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-white p-6 rounded-2xl shadow-xl border border-outline/5">
+<span class="material-symbols-outlined text-4xl text-secondary mb-4">settings_input_component</span>
+<h5 class="font-headline-sm text-headline-sm text-primary mb-2">Robust</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Enterprise-grade Java EE frameworks.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-xl border border-outline/5">
+<span class="material-symbols-outlined text-4xl text-secondary mb-4">verified_user</span>
+<h5 class="font-headline-sm text-headline-sm text-primary mb-2">Compliant</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Regulatory Aadhaar API standards.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact CTA Section -->
+<section class="py-section-gap" id="contact">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="bg-primary rounded-[2rem] p-12 md:p-20 text-center relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-secondary/20 blur-[120px] rounded-full -mr-48 -mt-48"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-primary-fixed/5 blur-[120px] rounded-full -ml-48 -mb-48"></div>
+<div class="relative z-10">
+<h2 class="font-display-lg text-display-lg text-on-primary mb-6">Ready to Scale Your Infrastructure?</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container max-w-2xl mx-auto mb-12">
+                        Currently leading technical initiatives at EastCS. Always open to discussing Java Enterprise architecture, security integrations, or system modernization.
+                    </p>
+<div class="flex flex-col md:flex-row justify-center items-center gap-6">
+<a class="flex items-center gap-3 px-8 py-4 bg-white text-primary rounded-xl font-headline-sm text-label-md hover:bg-surface-container-low transition-all" href="https://www.linkedin.com/in/jayachandran-k45/" target="_blank">
+                            Connect on LinkedIn
+                        </a>
+<a class="flex items-center gap-3 px-8 py-4 bg-secondary text-on-secondary rounded-xl font-headline-sm text-label-md hover:opacity-90 transition-all" href="mailto:contact@example.com">
+                            Send an Email <span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+<div class="mt-16 flex flex-wrap justify-center gap-12">
+<a class="text-on-primary-container hover:text-white transition-colors flex items-center gap-2" href="https://github.com/jayachandran45" target="_blank">
+<span class="font-label-md">GitHub</span>
+</a>
+<a class="text-on-primary-container hover:text-white transition-colors flex items-center gap-2" href="https://meta.stackexchange.com/users/1306534/jayachandran-k" target="_blank">
+<span class="font-label-md">Stack Overflow</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-primary dark:bg-primary-container w-full py-16 border-t border-outline/10">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto gap-8">
+<div class="text-center md:text-left">
+<div class="font-headline-sm text-headline-sm font-bold text-on-primary mb-2">Jayachandran K</div>
+<div class="font-label-md text-label-md text-surface-variant/70">Java Enterprise Specialist. Built with precision.</div>
+</div>
+<div class="flex gap-8">
+<a class="text-label-md font-label-md text-surface-variant/70 hover:text-white transition-colors hover:underline decoration-secondary-container" href="https://github.com/jayachandran45">GitHub</a>
+<a class="text-label-md font-label-md text-surface-variant/70 hover:text-white transition-colors hover:underline decoration-secondary-container" href="https://www.linkedin.com/in/jayachandran-k45/">LinkedIn</a>
+<a class="text-label-md font-label-md text-surface-variant/70 hover:text-white transition-colors hover:underline decoration-secondary-container" href="https://meta.stackexchange.com/users/1306534/jayachandran-k">Stack Overflow</a>
+<a class="text-label-md font-label-md text-surface-variant/70 hover:text-white transition-colors hover:underline decoration-secondary-container" href="mailto:contact@example.com">Email</a>
+</div>
+<div class="text-label-md font-label-md text-surface-variant/50">
+                © 2026 Jayachandran K All rights Reserved.
+            </div>
+</div>
+</footer>
+<script>
+        // Simple parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const heroImage = document.querySelector('img');
+            if (heroImage) {
+                heroImage.style.transform = `translateY(${scroll * 0.05}px)`;
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-8');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bento-card, #experience, #skills > div').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700');
+            observer.observe(el);
+        });
+    </script>
+
+
+</body></html>
